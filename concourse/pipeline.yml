@@ -38,7 +38,7 @@ resources:
   source:
     stackName: development
     clusterName: apiCluster
-    taskName: sessionsTaskDefinition
-    serviceName: sessionsService
+    taskName: profilesTaskDefinition
+    serviceName: profilesService
     accessKeyId: {{awsAccessKeyId}}
     secretAccessKey: {{awsSecretAccessKey}}
