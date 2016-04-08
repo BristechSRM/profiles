@@ -1,0 +1,220 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Profiles",
+        "description": "Retrieve details about profiles",
+        "version": "1.0.0"
+    },
+    "host": "api.bris.tech:8082",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/profiles/{profileId}": {
+            "get": {
+                "tags": [
+                    "profiles"
+                ],
+                "summary": "Retrieves details of an individual profile",
+                "description": "Retrieves details of an individual profile",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "profileId",
+                        "description": "The unique profile identifier",
+                        "required": true,
+                        "type": "string",
+                        "format": "guid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profile found",
+                        "schema": {
+                            "$ref": "#/definitions/ProfileDetail"
+                        }
+                    },
+                    "404": {
+                        "description": "Profile not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/profiles": {
+            "post": {
+                "tags": [
+                    "profiles"
+                ],
+                "summary": "Adds a new profile",
+                "description": "Adds a new profile",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "The new profile details",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NewProfileDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Profile created",
+                        "schema": {
+                            "$ref": "#/definitions/ProfileCreated"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid profile",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ProfileDetail": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "guid",
+                    "description": "The unique communication thread identifier"
+                },
+                "forename": {
+                    "type": "string",
+                    "description": "The forename of the profile"
+                },
+                "surname": {
+                    "type": "string",
+                    "description": "The surname of the profile"
+                },
+                "rating": {
+                    "type": "integer",
+                    "description": "A rating of the profile (from 1 to 5)\n"
+                },
+                "handles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HandleSummary"
+                    }
+                }
+            }
+        },
+        "NewProfileDetail": {
+            "type": "object",
+            "properties": {
+                "forename": {
+                    "type": "string",
+                    "description": "The forename of the profile"
+                },
+                "surname": {
+                    "type": "string",
+                    "description": "The surname of the profile"
+                },
+                "rating": {
+                    "type": "integer",
+                    "description": "A rating of the profile (from 1 to 5)\n"
+                },
+                "handles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HandleSummary"
+                    }
+                }
+            }
+        },
+        "ProfileCreated": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The unique identifier"
+                }
+            }
+        },
+        "HandleSummary": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "The type of handle, e.g. 'email', 'mobile', 'twitter' etc",
+                    "enum": [
+                        "email",
+                        "mobile",
+                        "twitter",
+                        "meetup"
+                    ]
+                },
+                "id": {
+                    "type": "string",
+                    "description": "The unique identifier of the handle based on the type, e.g. if type is 'email' then this will be the profile's email address, if the type is 'twitter' this will be their twitter handle etc."
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ErrorDetail"
+                    }
+                }
+            }
+        },
+        "ErrorDetail": {
+            "type": "object",
+            "required": [
+                "resource",
+                "code",
+                "message"
+            ],
+            "properties": {
+                "resource": {
+                    "type": "string",
+                    "description": "The resource being accessed"
+                },
+                "field": {
+                    "type": "string",
+                    "description": "Optional field used for invalid or missing fields"
+                },
+                "code": {
+                    "type": "string",
+                    "description": "Can be missing (i.e. a resource is missing), missing-field (a required field was not sent in the request), invalid (the specified field does not pass validation or already-exists (the resource already exists).",
+                    "enum": [
+                        "missing",
+                        "missing-field",
+                        "invalid",
+                        "already-exists"
+                    ]
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
