@@ -162,7 +162,7 @@
                         "meetup"
                     ]
                 },
-                "id": {
+                "alias": {
                     "type": "string",
                     "description": "The unique identifier of the handle based on the type, e.g. if type is 'email' then this will be the profile's email address, if the type is 'twitter' this will be their twitter handle etc."
                 }
