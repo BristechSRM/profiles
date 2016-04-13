@@ -114,6 +114,10 @@
                     "items": {
                         "$ref": "#/definitions/HandleSummary"
                     }
+                },
+                "imageUrl": {
+                    "type": "string",
+                    "description": "The url of the profile avatar"
                 }
             }
         },
@@ -137,6 +141,10 @@
                     "items": {
                         "$ref": "#/definitions/HandleSummary"
                     }
+                },
+                "imageUrl": {
+                    "type": "string",
+                    "description": "The url of the profile avatar"
                 }
             }
         },
